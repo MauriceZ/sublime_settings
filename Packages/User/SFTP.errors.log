@@ -1,0 +1,8 @@
+2015-03-25 20:45:52
+Traceback (most recent call last):
+  File "/Users/wbond/Library/Application Support/Sublime Text 3/Packages/SFTP/sftp/threads.py", line 15, in run_with_except_hook
+  File "/Users/wbond/Library/Application Support/Sublime Text 3/Packages/SFTP/sftp/commands.py", line 1174, in run
+  File "./os.py", line 258, in makedirs
+  File "./os.py", line 258, in makedirs
+  File "./os.py", line 269, in makedirs
+OSError: [Errno 45] Operation not supported: '/home/maurice'

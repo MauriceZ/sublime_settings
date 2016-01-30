@@ -1,0 +1,42 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Alignment",
+		"AppendSemiColon",
+		"AutoFileName",
+		"BracketHighlighter",
+		"ChannelRepositoryTools",
+		"Crystal",
+		"DashDoc",
+		"Default File Type",
+		"DocBlockr",
+		"Emmet",
+		"ERB Snippets",
+		"File Navigator",
+		"HTML Snippets",
+		"HTML-CSS-JS Prettify",
+		"JSHint",
+		"Jump Along Indent",
+		"LaTeXing",
+		"LESS",
+		"Package Control",
+		"PackageResourceViewer",
+		"Sass",
+		"SFTP",
+		"SideBarEnhancements",
+		"Snake",
+		"SourceTree",
+		"SublimeCodeIntel",
+		"SublimeLinter",
+		"SublimeLinter-jshint",
+		"SublimeLinter-php",
+		"SublimeLinter-ruby",
+		"SublimeREPL",
+		"SublimeSBT",
+		"Terminal"
+	]
+}

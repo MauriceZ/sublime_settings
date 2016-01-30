@@ -1,0 +1,10 @@
+{
+	"connections": {
+		"type": "mysql",
+		"host": "192.163.220.1",
+		"port": 3306,
+		"username": "partygri_maurice",
+		"password": "123lumiere"
+		"dbname": "Campusgrids"
+    }
+}

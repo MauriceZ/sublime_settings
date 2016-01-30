@@ -1,0 +1,9 @@
+{
+	"color_scheme": "Packages/MarkdownEditing/MarkdownEditor-Custom.tmTheme",
+	"draw_centered": true,
+	"wrap_width": 110,
+	"line_numbers": false,
+	"caret_style": "smooth",
+	"caret_extra_top": 0,
+	"caret_extra_bottom": 0
+}

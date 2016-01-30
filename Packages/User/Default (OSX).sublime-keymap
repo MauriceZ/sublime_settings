@@ -1,0 +1,60 @@
+[
+	{ "keys": ["super+shift+m"], "command": "toggle_minimap" },
+	{ "keys": ["super+k", "super+t"], "command": "title_case" },
+	{ "keys": ["super+shift+t"], "command": "reopen_last_file" }, // This is to override the Terminal package shortcut
+	{ "keys": ["ctrl+shift+r"], "command": "goto_definition" },
+	// { "keys": ["ctrl+u"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete to Hard BOL.sublime-macro"} },
+
+	// SFTP
+	{ "keys": ["super+ctrl+u","super+ctrl+f"], "command": "sftp_upload_file" },
+	{ "keys": ["super+ctrl+u","super+ctrl+r"], "command": "sftp_upload_folder" },
+	{ "keys": ["super+ctrl+u","super+ctrl+y"], "command": "sftp_sync_up" },
+	{ "keys": ["super+ctrl+u","super+ctrl+n"], "command": "sftp_upload_open_files" },
+	{ "keys": ["super+ctrl+u","super+ctrl+m"], "command": "sftp_monitor_file" },
+
+	{ "keys": ["super+shift+2"], "command": "sftp_download_file" },
+	{ "keys": ["super+ctrl+u","super+ctrl+e"], "command": "sftp_download_folder" },
+	{ "keys": ["super+ctrl+u","super+ctrl+d"], "command": "sftp_sync_down" },
+	{ "keys": ["super+ctrl+u","super+ctrl+i"], "command": "sftp_diff_remote_file" },
+
+	{ "keys": ["super+ctrl+u","super+ctrl+b"], "command": "sftp_sync_both" },
+	{ "keys": ["super+ctrl+u","super+ctrl+c"], "command": "sftp_vcs_changed_files" },
+
+	{ "keys": ["super+shift+1"], "command": "sftp_browse" },
+
+	{ "keys": ["super+ctrl+r","super+ctrl+s"], "command": "sftp_create_server" },
+	{ "keys": ["super+ctrl+r","super+ctrl+b"], "command": "sftp_browse_server" },
+	{ "keys": ["super+ctrl+r","super+ctrl+n"], "command": "sftp_last_server" },
+	{ "keys": ["super+ctrl+r","super+ctrl+e"], "command": "sftp_edit_server" },
+	{ "keys": ["super+ctrl+r","super+ctrl+d"], "command": "sftp_delete_server" },
+
+	{ "keys": ["super+ctrl+u","super+ctrl+s"], "command": "sftp_show_panel" },
+	{ "keys": ["super+ctrl+u","super+ctrl+x"], "command": "sftp_cancel_upload" },
+	{ "keys": ["super+shift+r"], "command": "goto_symbol_in_project" }, 
+
+	// Emmett
+	{
+	    "no_outside_adj": true,
+	    "keys": ["super+shift+space"],
+	    "command": "bh_key",
+	    "args":
+	    {
+	        "lines" : true,
+	        "plugin":
+	        {
+	            "type": ["__all__"],
+	            "command": "bh_modules.bracketselect"
+	        }
+	    }
+	},
+
+	// SidebarEnhancements
+	{ "keys": ["super+t"], "command": "side_bar_new_file2" },
+	{ "keys": ["super+k", "super+n"], "command": "side_bar_new_directory2" },
+	{ "keys": ["f2"], "command": "side_bar_rename" },
+	{ "keys": ["super+alt+r"], "command": "refresh_folder_list" },
+	{ "keys": ["super+shift+backspace"], "command": "side_bar_delete" },
+
+	// SublimeREPL
+  { "keys": ["ctrl+u"], "command": "repl_escape" },
+]
