@@ -1,0 +1,1 @@
+{"dependencies": [], "description": "Easily place a semicolon at the end of a line with a hotkey", "url": "https://github.com/MauriceZ/AppendSemiColon", "version": "1.1.1", "platforms": ["*"], "sublime_text": "*"}

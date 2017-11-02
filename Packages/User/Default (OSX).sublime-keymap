@@ -3,7 +3,10 @@
 	{ "keys": ["super+k", "super+t"], "command": "title_case" },
 	{ "keys": ["super+shift+t"], "command": "reopen_last_file" }, // This is to override the Terminal package shortcut
 	{ "keys": ["ctrl+shift+r"], "command": "goto_definition" },
-	// { "keys": ["ctrl+u"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete to Hard BOL.sublime-macro"} },
+	{ "keys": ["ctrl+k"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete to Hard EOL.sublime-macro"} },
+
+	{ "keys": ["alt+tab"], "command": "focus_neighboring_group" },
+	{ "keys": ["alt+shift+tab"], "command": "focus_neighboring_group", "args": {"forward": false} },
 
 	// SFTP
 	{ "keys": ["super+ctrl+u","super+ctrl+f"], "command": "sftp_upload_file" },
@@ -32,23 +35,8 @@
 	{ "keys": ["super+ctrl+u","super+ctrl+x"], "command": "sftp_cancel_upload" },
 	{ "keys": ["super+shift+r"], "command": "goto_symbol_in_project" }, 
 
-	// Emmett
-	{
-	    "no_outside_adj": true,
-	    "keys": ["super+shift+space"],
-	    "command": "bh_key",
-	    "args":
-	    {
-	        "lines" : true,
-	        "plugin":
-	        {
-	            "type": ["__all__"],
-	            "command": "bh_modules.bracketselect"
-	        }
-	    }
-	},
-
 	// SidebarEnhancements
+	{ "keys": ["super+k", "super+shift+t"], "command": "side_bar_new_file" },
 	{ "keys": ["super+t"], "command": "side_bar_new_file2" },
 	{ "keys": ["super+k", "super+n"], "command": "side_bar_new_directory2" },
 	{ "keys": ["f2"], "command": "side_bar_rename" },
@@ -57,4 +45,15 @@
 
 	// SublimeREPL
   { "keys": ["ctrl+u"], "command": "repl_escape" },
+
+  { "keys": ["super+shift+space"], "command": "expand_region" },
+  {
+    "keys": ["super+u"],
+    "command": "expand_region",
+    "args": {"undo": true},
+    "context": [{ "key": "expand_region_soft_undo" }]
+  },
+
+  // Dash
+  { "keys": ["ctrl+h"], "command": "dash_doc"}
 ]

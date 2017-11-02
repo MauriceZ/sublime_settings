@@ -60,7 +60,7 @@ class LinterMeta(type):
         if bases:
             setattr(cls, 'disabled', False)
 
-            if name in ('PythonLinter', 'RubyLinter', 'NodeLinter'):
+            if name in ('PythonLinter', 'RubyLinter', 'NodeLinter', 'ComposerLinter'):
                 return
 
             cls.alt_name = cls.make_alt_name(name)
@@ -278,6 +278,11 @@ class Linter(metaclass=LinterMeta):
     # Example: config_file = ('--config', '.jshintrc')
     #
     config_file = None
+
+    # Either '=' or ':'. if '=', the config file argument is joined with the config file
+    # path found by '=' and passed as a single argument. If ':', config file argument and
+    # the value are passed as separate arguments.
+    config_joiner = ':'
 
     # Tab width
     tab_width = 1
@@ -519,15 +524,33 @@ class Linter(metaclass=LinterMeta):
         Replace tokens with values in settings.
 
         Supported tokens, in the order they are expanded:
+        drive
+            sandbox
+                project 1
+                    path to file
+                        file to lint
+                project 2
+                    path to file
+                        file to lint
+                project 3
+                    path to file
+                        file to lint
 
-        ${project}: full path to the project's parent directory, if available.
-        ${directory}: full path to the parent directory of the current view's file.
+        ${project}:
+            full path of the project root directory
+            -> "/drive/sandbox/project 1"
+
+        ${directory}:
+            full path the current view's parent directory
+            -> "/drive/sandbox/project 1/path to file"
+
+        ${project} and ${directory} expansion are dependent on
+        having a window. Paths do not contain trailing directory separators.
+
         ${home}: the user's $HOME directory.
         ${sublime}: sublime text settings directory.
         ${env:x}: the environment variable 'x'.
 
-        ${project} and ${directory} expansion are dependent on
-        having a window. Paths do not contain trailing directory separators.
 
         """
         def recursive_replace_value(expressions, value):
@@ -556,24 +579,34 @@ class Linter(metaclass=LinterMeta):
         if window:
             view = window.active_view()
 
-            if window.project_file_name():
-                project = os.path.dirname(window.project_file_name())
+            # window.project_data delivers the root folder(s) of the view,
+            # even without any project file! more flexible that way:
+            #
+            # 1) have your folder open with no project settings
+            # 2) have more than one folder opened with no project settings
+            # 3) project settings file inside your folder structure
+            # 4) project settings file outside your folder structure
 
-                expressions.append({
-                    'token': '${project}',
-                    'value': project
-                })
+            data = window.project_data() or {}
+            folders = data.get('folders', [])
+            for folder in folders:
+                # extract the root folder of the currently watched file
+                if folder['path'] in view.file_name():
+                    expressions.append({
+                        'token': '${project}',
+                        'value': folder['path']
+                    })
 
             expressions.append({
                 'token': '${directory}',
                 'value': (
-                    os.path.dirname(view.file_name()) if
+                    os.path.dirname(view.file_name()).replace('\\', '/') if
                     view and view.file_name() else "FILE NOT ON DISK")
             })
 
         expressions.append({
             'token': '${home}',
-            'value': os.path.expanduser('~').rstrip(os.sep).rstrip(os.altsep) or 'HOME NOT SET'
+            'value': os.path.expanduser('~').rstrip(os.sep).rstrip(os.altsep).replace('\\', '/') or 'HOME NOT SET'
         })
 
         expressions.append({
@@ -1304,7 +1337,10 @@ class Linter(metaclass=LinterMeta):
                 )
 
                 if config:
-                    args += [self.config_file[0], config]
+                    if self.config_joiner == '=':
+                        args.append('{}={}'.format(self.config_file[0], config))
+                    elif self.config_joiner == ':':
+                        args += [self.config_file[0], config]
 
         return args
 
@@ -1344,6 +1380,19 @@ class Linter(metaclass=LinterMeta):
 
                     options[name] = value
 
+    def get_chdir(self, settings):
+        """Find the chdir to use with the linter."""
+        chdir = settings.get('chdir', None)
+
+        if chdir and os.path.isdir(chdir):
+            return chdir
+            persist.debug('chdir has been set to: {0}'.format(chdir))
+        else:
+            if self.filename:
+                return os.path.dirname(self.filename)
+            else:
+                return os.path.realpath('.')
+
     def lint(self, hit_time):
         """
         Perform the lint, retrieve the results, and add marks to the view.
@@ -1370,15 +1419,7 @@ class Linter(metaclass=LinterMeta):
                 return
 
         settings = self.get_view_settings()
-        self.chdir = settings.get('chdir', None)
-
-        if not self.chdir or not os.path.isdir(self.chdir):
-            if self.filename:
-                self.chdir = os.path.dirname(self.filename)
-            else:
-                self.chdir = os.path.realpath('.')
-
-            persist.debug('chdir not set or invalid, using %s' % self.chdir)
+        self.chdir = self.get_chdir(settings)
 
         with util.cd(self.chdir):
             output = self.run(cmd, self.code)
@@ -1716,7 +1757,7 @@ class Linter(metaclass=LinterMeta):
 
     def find_errors(self, output):
         """
-        A generator which matches the linter's regex against the linter output.
+        Match the linter's regex against the linter output with this generator.
 
         If multiline is True, split_match is called for each non-overlapping
         match of self.regex. If False, split_match is called for each line
@@ -1763,6 +1804,7 @@ class Linter(metaclass=LinterMeta):
 
             return match, line, col, error, warning, message, near
         else:
+            persist.debug('No match for {}'.format(self.regex))
             return match, None, None, None, None, '', None
 
     def run(self, cmd, code):
@@ -1791,7 +1833,7 @@ class Linter(metaclass=LinterMeta):
 
     def get_tempfile_suffix(self):
         """Return the mapped tempfile_suffix."""
-        if self.tempfile_suffix:
+        if self.tempfile_suffix and not self.view.file_name():
             if isinstance(self.tempfile_suffix, dict):
                 suffix = self.tempfile_suffix.get(persist.get_syntax(self.view), self.syntax)
             else:

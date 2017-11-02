@@ -3,7 +3,7 @@
 	//  - false  = never
 	//  - number = seconds after completion
 	//  - true   = always
-	"hide_output_panel": 1,
+	"hide_output_panel": true,
 
 	// Frequency in milliseconds that sftp_monitor_file command checks
 	// modification time of file. This uses lstat, so it is not an I/O

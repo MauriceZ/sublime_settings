@@ -1,7 +1,0 @@
-{
-	"default_extend_env": {
-		"PATH": "/Users/Maurice/perl5/perlbrew/bin:/Users/Maurice/perl5/perlbrew/perls/perl-5.16.0/bin:/usr/local/heroku/bin:/Users/Maurice/.rvm/gems/ruby-2.1.1/bin:/Users/Maurice/.rvm/gems/ruby-2.1.1@global/bin:/Users/Maurice/.rvm/rubies/ruby-2.1.1/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin:/Users/Maurice/.rvm/bin:/Users/Maurice/.rvm/bin:/usr/local/smlnj/bin",
-
-		"GEM_PATH": "/Users/Maurice/.rvm/gems/ruby-2.1.1:/Users/Maurice/.rvm/gems/ruby-2.1.1@global" // change ruby gem path
-	}
-}
